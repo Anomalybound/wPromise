@@ -104,7 +104,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onResolved != null) { onResolved(); }
+                    onResolved?.Invoke();
 
                     resultPromise.Resolve();
                 }
@@ -115,7 +115,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onRejected != null) { onRejected(ex); }
+                    onRejected?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -126,7 +126,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onNotified != null) { onNotified(process); }
+                    onNotified?.Invoke(process);
 
                     resultPromise.Notify(process);
                 }
@@ -163,7 +163,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onRejected != null) { onRejected(ex); }
+                    onRejected?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -174,7 +174,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onNotified != null) { onNotified(process); }
+                    onNotified?.Invoke(process);
 
                     resultPromise.Notify(process);
                 }
@@ -195,18 +195,15 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onResolved != null)
-                    {
-                        onResolved().Then(
-                            promised => resultPromise.Resolve(promised),
-                            ex => resultPromise.Reject(ex),
-                            (process, current) =>
-                            {
-                                if (onNotified != null) { onNotified.Invoke(process, current); }
+                    onResolved?.Invoke().Then(
+                        promised => resultPromise.Resolve(promised),
+                        ex => resultPromise.Reject(ex),
+                        (process, current) =>
+                        {
+                            onNotified?.Invoke(process, current);
 
-                                resultPromise.Notify(process, current);
-                            });
-                    }
+                            resultPromise.Notify(process, current);
+                        });
                 }
                 catch (Exception e) { resultPromise.Reject(e); }
             };
@@ -215,7 +212,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onRejected != null) { onRejected(ex); }
+                    onRejected?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -241,7 +238,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onCatched != null) { onCatched(ex); }
+                    onCatched?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -487,7 +484,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onResolved != null) { onResolved(promised); }
+                    onResolved?.Invoke(promised);
 
                     resultPromise.Resolve(promised);
                 }
@@ -498,7 +495,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onRejected != null) { onRejected(ex); }
+                    onRejected?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -509,7 +506,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onNotified != null) { onNotified(process, promised); }
+                    onNotified?.Invoke(process, promised);
 
                     resultPromise.Notify(process, promised);
                 }
@@ -536,7 +533,7 @@ namespace wLib.Promise
                         convertedPromise.Then(converted => resultPromise.Resolve(converted));
                         convertedPromise.Step((process, current) =>
                         {
-                            if (onNotified != null) { onNotified.Invoke(process, current); }
+                            onNotified?.Invoke(process, current);
 
                             resultPromise.Notify(process, current);
                         });
@@ -549,7 +546,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onRejected != null) { onRejected(ex); }
+                    onRejected?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
@@ -576,7 +573,7 @@ namespace wLib.Promise
             {
                 try
                 {
-                    if (onCatched != null) { onCatched(ex); }
+                    onCatched?.Invoke(ex);
 
                     resultPromise.Reject(ex);
                 }
